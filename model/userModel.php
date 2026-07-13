@@ -1,10 +1,17 @@
 <?php
 
-require_once __DIR__ . '/../config/database.php';
-$pdo = Database::getConnection();
-
 class UserModel {
-    private $id;
+    // The variable will receive a PDO object
+    private PDO $db;
+
+    public function __construct(PDO $db) {
+        $this->db = $db;
+    }
+
+    public function getAll(): array { // The function will receive an Array
+        $stmt = $this->db->query("SELECT * FROM users");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

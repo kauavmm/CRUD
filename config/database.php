@@ -2,9 +2,11 @@
 
 // Connect to database
 class Database {
+    // The variable will be null or PDO object
     private static ?PDO $pdo = null;
 
-    public static function getConnection(): PDO {
+    public static function getConnection(): PDO { // With ": PDO", the function must return a PDO object
+        // "self::$pdo" is used because the variale is static
         if (self::$pdo === null) {
             $host = "mysql";
             $user = "root";
@@ -18,11 +20,12 @@ class Database {
                 self::$pdo = new PDO($dsn, $user, $password);
                 self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                echo "false " . $e->getMessage();
+                echo "Connection error " . $e->getMessage();
                 die();
             }
         }
 
+        // Return the static variable
         return self::$pdo;
     }
 }
