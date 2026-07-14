@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     require_once __DIR__ . '/config/database.php';
     require_once __DIR__ . '/model/userModel.php';
     require_once __DIR__ . '/controllers/userController.php';
@@ -13,12 +15,14 @@
         'index' => $userController->index(),
         'create' => $userController->create(),
         'store' => $userController->store(),
+        'edit' => $userController->edit(),
+        'update' => $userController->update(),
         default => http_response_code(404),
     }
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -13,6 +13,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th scope="col">#</th>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Surname</th>
@@ -26,7 +27,8 @@
         <tbody>
         <?php foreach ($users as $user): ?>
             <tr>               
-                <th scope='row'><?= $user['id'] ?></th>
+                <th scope='row'><p><a href="#">Edit</a></p></th>
+                <td><?= $user['id'] ?></td>
                 <td><?= $user['name'] ?></td>
                 <td><?= $user['surname'] ?></td>
                 <td>@<?= $user['username'] ?></td>
@@ -38,6 +40,8 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+
+    <a class="btn btn-primary" href="../../index.php?route=create" role="button">Add user</a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>

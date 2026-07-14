@@ -4,13 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Kauã Melo">
-    <meta name="Description" content="Create user for database">
+    <meta name="Description" content="Create user for the database">
     <title>Create</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   </head>
   <body>
 
-    <form action="" method="post">
+    <?php 
+        if (isset($_SESSION['emailFilter'])) {
+            echo $_SESSION['emailFilter'];
+            unset($_SESSION['emailFilter']);
+        } else if (isset($_SESSION['emailExists'])) {
+            echo $_SESSION['emailExists'];
+            unset($_SESSION['emailExists']);
+        }
+    ?>
+    <form action="../../index.php?route=store" method="post">
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating mb-3">

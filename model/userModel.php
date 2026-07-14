@@ -18,7 +18,7 @@ class UserModel {
         // The COUNT() function return only 0 or 1 because it asks the database table: "Who many rows contain this email?"
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email= ?");
         $stmt->execute([$email]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchColumn(); // The "fetchColumn()" returns an value of the first column of the first row
         return (bool) $result;
     }
 
