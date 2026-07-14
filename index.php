@@ -1,3 +1,22 @@
+<?php
+    require_once __DIR__ . '/config/database.php';
+    require_once __DIR__ . '/model/userModel.php';
+    require_once __DIR__ . '/controllers/userController.php';
+    
+    $pdo = Database::getConnection();
+    $userModel = new UserModel($pdo);
+    $userController = new UserController($userModel);
+
+    $route = $_GET['route'] ?? 'index';
+
+    match ($route) {
+        'index' => $userController->index(),
+        'create' => $userController->create(),
+        'store' => $userController->store(),
+        default => http_response_code(404),
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -9,12 +28,7 @@
 </head>
 <body>
     
-    <main>
-        <div id="link">
-            <a href="php/form.php">Criar utilizador</a>
-            <a href="php/read.php">Mostrar utilizador</a>
-        </div>
-    </main>
+    
 
 </body>
 </html>

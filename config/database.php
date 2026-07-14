@@ -1,6 +1,6 @@
 <?php
 
-// Connect to database
+// Connect to the database
 class Database {
     // The variable will be null or PDO object
     private static ?PDO $pdo = null;
