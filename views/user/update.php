@@ -10,17 +10,12 @@
   </head>
   <body>
 
-    <?php 
-        if (isset($_SESSION['emailFilter'])) {
-            echo $_SESSION['emailFilter'];
-            unset($_SESSION['emailFilter']);
-        } else if (isset($_SESSION['emailExists'])) {
-            echo $_SESSION['emailExists'];
-            unset($_SESSION['emailExists']);
-        } else if (isset($_SESSION['emptyPassword'])) {
-            echo $_SESSION['emptyPassword'];
-            unset($_SESSION['emptyPassword']);
-        }
+    <?php
+
+        Session::flashOutput('emailFilter');
+        Session::flashOutput('emailExists');
+        Session::flashOutput('emptyPassword');
+        
     ?>
 
     <form action="../../index.php?route=update&id=<?= $userData['id'] ?>" method="post">

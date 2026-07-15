@@ -1,5 +1,6 @@
 <?php
-    session_start();
+    require_once __DIR__ . '/helpers/session.php';
+    Session::start();
 
     require_once __DIR__ . '/config/database.php';
     require_once __DIR__ . '/model/userModel.php';
@@ -20,7 +21,7 @@
         'update' => $userController->update($id),
         'destroy' => $userController->destroy($id),
         default => http_response_code(404),
-    }
+    };
 ?>
 
 <!DOCTYPE html>

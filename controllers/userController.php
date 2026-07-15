@@ -29,20 +29,20 @@ class UserController {
         // Filter and verify if the email exists
         $emailFilter = filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!($emailFilter)) {
-            $_SESSION['emailFilter'] = "Invalid email";
+            Session::set('emailFilter', 'Invalid email');
             header('Location: index.php?route=create');
             exit();
         } else {
             $emailExists = $this->userModel->emailExists($emailFilter);
             if ($emailExists) {
-                $_SESSION['emailExists'] = "Email is already in use, please choose another";
+                Session::set('emailExists', 'Email is already in use, please choose another');
                 header('Location: index.php?route=create');
                 exit();
             }
 
             // Verify if password input is empty
             if (empty($password)) {
-                $_SESSION['emptyPassword'] = "Empty password, please choose one";
+                Session::set('emptyPassword', 'Empty password, please choose one');
                 header('Location: index.php?route=create');
                 exit();
             } else {
@@ -75,13 +75,13 @@ class UserController {
         // Filter and verify if the email exists
         $emailFilter = filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!($emailFilter)) {
-            $_SESSION['emailFilter'] = "Invalid email";
+            Session::set('emailFilter', 'Invalid email');
             header("Location: index.php?route=edit&id=$id");
             exit();
         } else {
             $emailExists = $this->userModel->emailExists($emailFilter, $id);
             if ($emailExists) {
-                $_SESSION['emailExists'] = "Email is already in use, please choose another";
+                Session::set('emailExists', 'Email is already in use, please choose another');
                 header("Location: index.php?route=edit&id=$id");
                 exit();
             }
