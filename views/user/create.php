@@ -17,8 +17,12 @@
         } else if (isset($_SESSION['emailExists'])) {
             echo $_SESSION['emailExists'];
             unset($_SESSION['emailExists']);
+        } else if (isset($_SESSION['emptyPassword'])) {
+            echo $_SESSION['emptyPassword'];
+            unset($_SESSION['emptyPassword']);
         }
     ?>
+    
     <form action="../../index.php?route=store" method="post">
         <div class="row g-2">
             <div class="col-md">

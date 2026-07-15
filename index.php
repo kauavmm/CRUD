@@ -10,13 +10,14 @@
     $userController = new UserController($userModel);
 
     $route = $_GET['route'] ?? 'index';
+    $id = $_GET['id'] ?? null;
 
     match ($route) {
         'index' => $userController->index(),
         'create' => $userController->create(),
         'store' => $userController->store(),
-        'edit' => $userController->edit(),
-        'update' => $userController->update(),
+        'edit' => $userController->edit($id),
+        'update' => $userController->update($id),
         default => http_response_code(404),
     }
 ?>

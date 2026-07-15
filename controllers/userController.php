@@ -17,14 +17,14 @@ class UserController {
     }
 
     public function store(): void {
-        // Receive user data from the form
+        // Receive user data from the form create
         $name = $_POST["name"];
         $surname = $_POST["surname"];
         $username = $_POST["username"];
         $phone = $_POST["phone"];
         $age = (int) $_POST["age"]; // The "$_POST[]" arrives as a string and use "(int)" to convert it into an integer 
         $email = $_POST["email"];
-        $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Receive the password via POST method and encrypts it
+        $password = $_POST["password"];
 
         // Filter and verify if the email exists
         $emailFilter = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -39,20 +39,62 @@ class UserController {
                 header('Location: index.php?route=create');
                 exit();
             }
+
+            // Verify if password input is empty
+            if (empty($password)) {
+                $_SESSION['emptyPassword'] = "Empty password, please choose one";
+                header('Location: index.php?route=create');
+                exit();
+            } else {
+                $password = password_hash($password, PASSWORD_DEFAULT); // Encrypts password
+            }
             
-            // Add user to the database and redirect to read page
+            // Add the user to the database and redirect to the read page
             $this->userModel->create($name, $surname, $username, $phone, $age, $email, $password);
             header('Location: index.php?route=index');
             exit();
         }
     }
 
-    public function edit(): void {
+    public function edit(string $id): void {
+        $userData = $this->userModel->find($id);
         require_once __DIR__ . '/../views/user/update.php';
     }
 
-    public function update($id): void {
+    public function update(string $id): void {
+        // Receive user data from the form edit
+        $id;
+        $name = $_POST['name'];
+        $surname = $_POST["surname"];
+        $username = $_POST["username"];
+        $phone = $_POST["phone"];
+        $age = (int) $_POST["age"];
+        $email = $_POST["email"];
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
+        // Filter and verify if the email exists
+        $emailFilter = filter_var($email, FILTER_VALIDATE_EMAIL);
+        if (!($emailFilter)) {
+            $_SESSION['emailFilter'] = "Invalid email";
+            header("Location: index.php?route=edit&id=$id");
+            exit();
+        } else {
+            $emailExists = $this->userModel->emailExists($emailFilter, $id);
+            if ($emailExists) {
+                $_SESSION['emailExists'] = "Email is already in use, please choose another";
+                header("Location: index.php?route=edit&id=$id");
+                exit();
+            }
+            
+            // Edit the user, send data to the database and redirect the user to the read page
+            $this->userModel->update($id, $name, $surname, $username, $phone, $age, $email, $password);
+            header('Location: index.php?route=index');
+            exit();
+        }
+    }
+
+    public function destroy(string $id): void {
+        
     }
 }
 

@@ -27,7 +27,7 @@
         <tbody>
         <?php foreach ($users as $user): ?>
             <tr>               
-                <th scope='row'><p><a href="#">Edit</a></p></th>
+                <th scope='row'><p><a href="index.php?route=edit&id=<?= $user['id'] ?>">Edit</a></p></th>
                 <td><?= $user['id'] ?></td>
                 <td><?= $user['name'] ?></td>
                 <td><?= $user['surname'] ?></td>
