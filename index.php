@@ -18,6 +18,7 @@
         'store' => $userController->store(),
         'edit' => $userController->edit($id),
         'update' => $userController->update($id),
+        'destroy' => $userController->destroy($id),
         default => http_response_code(404),
     }
 ?>

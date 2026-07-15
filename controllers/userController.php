@@ -94,7 +94,9 @@ class UserController {
     }
 
     public function destroy(string $id): void {
-        
+        $this->userModel->delete($id);
+        header('Location: index.php?route=index');
+        exit();
     }
 }
 

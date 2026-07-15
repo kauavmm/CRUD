@@ -22,6 +22,7 @@
                 <th scope="col">Age</th>
                 <th scope="col">Email</th>
                 <th scope="col">Create on</th>
+                <th scope="col">#</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,7 @@
                 <td><?= $user['age'] ?></td>
                 <td><?= $user['email'] ?></td>
                 <td><?= $user['create_at'] ?></td>
+                <td><p><a href="index.php?route=destroy&id=<?= $user['id'] ?>">Delete</a></p></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

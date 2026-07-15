@@ -54,6 +54,11 @@ class UserModel {
             return $stmt->execute([$name, $surname, $username, $phone, $age, $email, $password, $id]);
         }
     }
+
+    public function delete(string $id): bool {
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
 }
 
 ?>
