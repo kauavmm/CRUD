@@ -9,11 +9,12 @@ class UserController {
 
     public function index(): void {
         $users = $this->userModel->getAll();
-        require_once __DIR__ . '/../views/user/read.php';
+        // $users will be the data, and 'users' will be the name of the resulting variable.
+        echo Html::render('/../views/user/read.php', ['users' => $users]);
     }
 
     public function create(): void {
-        require_once __DIR__ . '/../views/user/create.php';
+        echo Html::render('/../views/user/create.php');
     }
 
     public function store(): void {
@@ -58,7 +59,7 @@ class UserController {
 
     public function edit(string $id): void {
         $userData = $this->userModel->find($id);
-        require_once __DIR__ . '/../views/user/update.php';
+        echo Html::render('/../views/user/update.php', ['userData' => $userData]);
     }
 
     public function update(string $id): void {

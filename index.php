@@ -2,6 +2,7 @@
     require_once __DIR__ . '/helpers/session.php';
     Session::start();
 
+    require_once __DIR__ . '/helpers/html.php';
     require_once __DIR__ . '/config/database.php';
     require_once __DIR__ . '/model/userModel.php';
     require_once __DIR__ . '/controllers/userController.php';
@@ -23,19 +24,3 @@
         default => http_response_code(404),
     };
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Kauã">
-    <title>CRUD</title>
-    <link rel="stylesheet" href="views/css/style.css">
-</head>
-<body>
-    
-    
-
-</body>
-</html>
