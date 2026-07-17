@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Helpers;
+
 class Html {
     public static function render(string $template, array $args = []): string { // If $args does not receive any array data, it will be empty 
         ob_start(); // Everything between ob_start() and ob_get_clean() will be stored

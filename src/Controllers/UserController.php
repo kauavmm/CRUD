@@ -1,20 +1,26 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Models\UserModel;
+use App\Helpers\Session;
+use App\Helpers\Html;
+
 class UserController {
     private UserModel $userModel;
 
-    public function __construct(UserModel $userModel) {
-        $this->userModel = $userModel;
+    public function __construct() {
+        $this->userModel = new UserModel();
     }
 
     public function index(): void {
         $users = $this->userModel->getAll();
         // $users will be the data, and 'users' will be the name of the resulting variable.
-        echo Html::render('/../views/user/read.php', ['users' => $users]);
+        echo Html::render('/../../views/user/read.php', ['users' => $users]);
     }
 
     public function create(): void {
-        echo Html::render('/../views/user/create.php');
+        echo Html::render('/../../views/user/create.php');
     }
 
     public function store(): void {
@@ -59,7 +65,7 @@ class UserController {
 
     public function edit(string $id): void {
         $userData = $this->userModel->find($id);
-        echo Html::render('/../views/user/update.php', ['userData' => $userData]);
+        echo Html::render('/../../views/user/update.php', ['userData' => $userData]);
     }
 
     public function update(string $id): void {

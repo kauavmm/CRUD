@@ -1,13 +1,12 @@
 <?php
-    require_once __DIR__ . '/helpers/session.php';
-    Session::start();
+    require_once __DIR__ . '/vendor/autoload.php';
 
-    require_once __DIR__ . '/helpers/html.php';
-    require_once __DIR__ . '/model/userModel.php';
-    require_once __DIR__ . '/controllers/userController.php';
+    use App\Helpers\Session;
+    use App\Controllers\UserController;
+
+    Session::start();
     
-    $userModel = new UserModel();
-    $userController = new UserController($userModel);
+    $userController = new UserController();
 
     $route = $_GET['route'] ?? 'index';
     $id = $_GET['id'] ?? null;

@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Config;
+
+use PDO;
+use PDOException;
+
 // Connect to the database
 class Database {
     // The variable will be null or PDO object

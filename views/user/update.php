@@ -12,6 +12,8 @@
 
     <?php
 
+        use App\Helpers\Session;
+
         Session::flashOutput('emailFilter');
         Session::flashOutput('emailExists');
         Session::flashOutput('emptyPassword');
