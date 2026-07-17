@@ -1,11 +1,12 @@
 <?php
 
+require_once __DIR__ . '/../config/database.php';
+
 class UserModel {
-    // The variable will receive a PDO object
     private PDO $db;
 
-    public function __construct(PDO $db) {
-        $this->db = $db;
+    public function __construct() {
+        $this->db = Database::getConnection();
     }
 
     public function getAll(): array { // The function will return an Array
@@ -26,7 +27,7 @@ class UserModel {
             $stmt->execute([$email, $id]);
             $result = $stmt->fetchColumn();
             return (bool) $result;
-        }        
+        }      
     }
 
     public function create(string $name, string $surname, string $username, string $phone, int $age, string $email, string $password): bool {

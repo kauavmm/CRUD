@@ -3,12 +3,10 @@
     Session::start();
 
     require_once __DIR__ . '/helpers/html.php';
-    require_once __DIR__ . '/config/database.php';
     require_once __DIR__ . '/model/userModel.php';
     require_once __DIR__ . '/controllers/userController.php';
     
-    $pdo = Database::getConnection();
-    $userModel = new UserModel($pdo);
+    $userModel = new UserModel();
     $userController = new UserController($userModel);
 
     $route = $_GET['route'] ?? 'index';
