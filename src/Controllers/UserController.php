@@ -13,15 +13,23 @@ class UserController {
         $this->userModel = new UserModel();
     }
 
-    public function index(): void {
+    public function index(): string {
+        $users = $this->userModel->getAll();
+        // $users will be the data, and 'users' will be the name of the resulting variable.
+        return Html::render('/../../views/user/read.php', ['users' => $users]);
+    }
+    /* public function index(): void {
         $users = $this->userModel->getAll();
         // $users will be the data, and 'users' will be the name of the resulting variable.
         echo Html::render('/../../views/user/read.php', ['users' => $users]);
-    }
+    } */
 
-    public function create(): void {
-        echo Html::render('/../../views/user/create.php');
+    public function create(): string {
+        return Html::render('/../../views/user/create.php');
     }
+    /* public function create(): void {
+        echo Html::render('/../../views/user/create.php');
+    } */
 
     public function store(): void {
         // Receive user data from the form create
