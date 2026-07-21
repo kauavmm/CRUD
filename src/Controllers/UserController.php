@@ -5,6 +5,9 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use App\Helpers\Session;
 use App\Helpers\Html;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Laminas\Diactoros\Response;
 
 class UserController {
     private UserModel $userModel;
@@ -13,17 +16,23 @@ class UserController {
         $this->userModel = new UserModel();
     }
 
-    public function index(): void {
+    public function index(ServerRequestInterface $request): ResponseInterface {
         $users = $this->userModel->getAll();
         // $users will be the data, and 'users' will be the name of the resulting variable.
-        echo Html::render('/../../views/user/read.php', ['users' => $users]);
+        $html = Html::render('/../../views/user/read.php', ['users' => $users]);
+        $response = new Response();
+        $response->getBody()->write($html);
+        return $response;
     }
 
-    public function create(): void {
-        echo Html::render('/../../views/user/create.php');
+    public function create(ServerRequestInterface $request): ResponseInterface {
+        $html = Html::render('/../../views/user/create.php');
+        $response = new Response();
+        $response->getBody()->write($html);
+        return $response;
     }
 
-    public function store(): void {
+    public function store(ServerRequestInterface $request): ResponseInterface {
         // Receive user data from the form create
         $name = $_POST["name"];
         $surname = $_POST["surname"];
@@ -37,40 +46,39 @@ class UserController {
         $emailFilter = filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!($emailFilter)) {
             Session::set('emailFilter', 'Invalid email');
-            header('Location: index.php?route=create');
-            exit();
+            return (new Response())->withStatus(302)->withHeader('Location', '/users/create');
         } else {
             $emailExists = $this->userModel->emailExists($emailFilter);
             if ($emailExists) {
                 Session::set('emailExists', 'Email is already in use, please choose another');
-                header('Location: index.php?route=create');
-                exit();
+                return (new Response())->withStatus(302)->withHeader('Location', '/users/create');
             }
 
             // Verify if password input is empty
             if (empty($password)) {
                 Session::set('emptyPassword', 'Empty password, please choose one');
-                header('Location: index.php?route=create');
-                exit();
+                return (new Response())->withStatus(302)->withHeader('Location', '/users/create');
             } else {
                 $password = password_hash($password, PASSWORD_DEFAULT); // Encrypts password
             }
             
             // Add the user to the database and redirect to the read page
             $this->userModel->create($name, $surname, $username, $phone, $age, $email, $password);
-            header('Location: index.php?route=index');
-            exit();
+            return (new Response())->withStatus(302)->withHeader('Location', '/');
         }
     }
 
-    public function edit(string $id): void {
-        $userData = $this->userModel->find($id);
-        echo Html::render('/../../views/user/update.php', ['userData' => $userData]);
+    public function edit(ServerRequestInterface $request, array $args): ResponseInterface {
+        $userData = $this->userModel->find($args['id']);
+        $html = Html::render('/../../views/user/update.php', ['userData' => $userData]);
+        $response = new Response();
+        $response->getBody()->write($html);
+        return $response;
     }
 
-    public function update(string $id): void {
+    public function update(ServerRequestInterface $request, array $args): ResponseInterface {
         // Receive user data from the form edit
-        $id;
+        $id = $args['id'];
         $name = $_POST['name'];
         $surname = $_POST["surname"];
         $username = $_POST["username"];
@@ -83,27 +91,23 @@ class UserController {
         $emailFilter = filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!($emailFilter)) {
             Session::set('emailFilter', 'Invalid email');
-            header("Location: index.php?route=edit&id=$id");
-            exit();
+            return (new Response())->withStatus(302)->withHeader('Location', "/users/$id/edit");
         } else {
             $emailExists = $this->userModel->emailExists($emailFilter, $id);
             if ($emailExists) {
                 Session::set('emailExists', 'Email is already in use, please choose another');
-                header("Location: index.php?route=edit&id=$id");
-                exit();
+                return (new Response())->withStatus(302)->withHeader('Location', "/users/$id/edit");
             }
             
             // Edit the user, send data to the database and redirect the user to the read page
             $this->userModel->update($id, $name, $surname, $username, $phone, $age, $email, $password);
-            header('Location: index.php?route=index');
-            exit();
+            return (new Response())->withStatus(302)->withHeader('Location', '/');
         }
     }
 
-    public function destroy(string $id): void {
-        $this->userModel->delete($id);
-        header('Location: index.php?route=index');
-        exit();
+    public function destroy(ServerRequestInterface $request, array $args): ResponseInterface {
+        $this->userModel->delete($args['id']);
+        return (new Response())->withStatus(302)->withHeader('Location', '/');
     }
 }
 

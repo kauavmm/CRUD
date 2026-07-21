@@ -20,7 +20,7 @@
         
     ?>
 
-    <form action="../../index.php?route=update&id=<?= $userData['id'] ?>" method="post">
+    <form action="/users/<?= $userData['id'] ?>" method="POST">
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating mb-3">

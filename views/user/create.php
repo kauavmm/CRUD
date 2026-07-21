@@ -20,7 +20,7 @@
         
     ?>
     
-    <form action="../../index.php?route=store" method="post">
+    <form action="/users" method="POST">
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating mb-3">

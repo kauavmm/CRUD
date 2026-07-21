@@ -1,23 +1,46 @@
-<?php
-    require_once __DIR__ . '/vendor/autoload.php';
+<?php 
 
-    use App\Helpers\Session;
-    use App\Controllers\UserController;
+declare(strict_types=1);
 
-    Session::start();
-    
-    $userController = new UserController();
+include_once __DIR__ . '/vendor/autoload.php';
 
-    $route = $_GET['route'] ?? 'index';
-    $id = $_GET['id'] ?? null;
+use App\Helpers\Session;
+use App\Controllers\UserController;
 
-    match ($route) {
-        'index' => $userController->index(),
-        'create' => $userController->create(),
-        'store' => $userController->store(),
-        'edit' => $userController->edit($id),
-        'update' => $userController->update($id),
-        'destroy' => $userController->destroy($id),
-        default => http_response_code(404),
-    };
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use League\Route\Router;
+
+Session::start();
+
+$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
+    $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES
+);
+
+$router = new League\Route\Router;
+
+$userController = new UserController();
+
+// Read users
+$router->map('GET', '/', [$userController, 'index']);
+
+// Create user
+$router->map('GET', '/users/create', [$userController, 'create']);
+
+// Save new user
+$router->map('POST', '/users', [$userController, 'store']);
+
+// Edit user
+$router->map('GET', '/users/{id}/edit', [$userController, 'edit']);
+
+// Update user
+$router->map('POST', '/users/{id}', [$userController, 'update']);
+
+// Delete user
+$router->map('GET', '/users/{id}/delete', [$userController, 'destroy']);
+
+$response = $router->dispatch($request);
+
+(new Laminas\HttpHandlerRunner\Emitter\SapiEmitter())->emit($response);
+
 ?>

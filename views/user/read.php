@@ -28,7 +28,7 @@
         <tbody>
         <?php foreach ($users as $user): ?>
             <tr>               
-                <th scope='row'><p><a href="index.php?route=edit&id=<?= $user['id'] ?>">Edit</a></p></th>
+                <th scope='row'><p><a href="/users/<?= $user['id'] ?>/edit">Edit</a></p></th>
                 <td><?= $user['id'] ?></td>
                 <td><?= $user['name'] ?></td>
                 <td><?= $user['surname'] ?></td>
@@ -37,13 +37,13 @@
                 <td><?= $user['age'] ?></td>
                 <td><?= $user['email'] ?></td>
                 <td><?= $user['create_at'] ?></td>
-                <td><p><a href="index.php?route=destroy&id=<?= $user['id'] ?>">Delete</a></p></td>
+                <td><p><a href="users/<?= $user['id'] ?>/delete">Delete</a></p></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="../../index.php?route=create" role="button">Add user</a>
+    <a class="btn btn-primary" href="/users/create" role="button">Add user</a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
