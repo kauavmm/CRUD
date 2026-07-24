@@ -19,14 +19,14 @@ class UserController {
     public function index(ServerRequestInterface $request): ResponseInterface {
         $users = $this->userModel->getAll();
         // $users will be the data, and 'users' will be the name of the resulting variable.
-        $html = Html::render('/../../views/user/read.php', ['users' => $users]);
+        $html = Html::render('user/read', ['users' => $users]);
         $response = new Response();
         $response->getBody()->write($html);
         return $response;
     }
 
     public function create(ServerRequestInterface $request): ResponseInterface {
-        $html = Html::render('/../../views/user/create.php');
+        $html = Html::render('user/create');
         $response = new Response();
         $response->getBody()->write($html);
         return $response;
@@ -70,7 +70,7 @@ class UserController {
 
     public function edit(ServerRequestInterface $request, array $args): ResponseInterface {
         $userData = $this->userModel->find($args['id']);
-        $html = Html::render('/../../views/user/update.php', ['userData' => $userData]);
+        $html = Html::render('user/update', ['userData' => $userData]);
         $response = new Response();
         $response->getBody()->write($html);
         return $response;
