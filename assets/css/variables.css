@@ -1,0 +1,35 @@
+:root {
+  /* Font family */
+  --font-sans: 'Inter', sans-serif;
+ 
+
+  /* Background */
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+ 
+  /* Border */
+  --color-border: #e2e4e8;
+  --color-border-strong: #d0d3d9;
+ 
+  /* Text */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+ 
+  /* Primary color */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-bg: #eaf1fe;
+ 
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-bg: #fdecec;
+ 
+
+  --color-success: #16a34a;
+  --color-success-bg: #eaf7ee;
+ 
+
+  --radius: 8px;
+  --radius-lg: 12px;
+}

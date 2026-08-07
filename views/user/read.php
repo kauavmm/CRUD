@@ -7,37 +7,64 @@ $this->layout('layout', [
 
 ?>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Surname</th>
-            <th scope="col">Username</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Age</th>
-            <th scope="col">Email</th>
-            <th scope="col">Create on</th>
-            <th scope="col">#</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($users as $user): ?>
-        <tr>               
-            <th scope='row'><p><a href="/users/<?= $user['id'] ?>/edit">Edit</a></p></th>
-            <td><?= $user['id'] ?></td>
-            <td><?= $user['name'] ?></td>
-            <td><?= $user['surname'] ?></td>
-            <td>@<?= $user['username'] ?></td>
-            <td><?= $user['phone'] ?></td>
-            <td><?= $user['age'] ?></td>
-            <td><?= $user['email'] ?></td>
-            <td><?= $user['create_at'] ?></td>
-            <td><p><a href="users/<?= $user['id'] ?>/delete">Delete</a></p></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
+<div class="page-container">
+    <div class="content-box">
+        <div class="page-header">
+            <h1>Users</h1>
+            <a href="/users/create" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-lg"></i> Add user
+            </a>
+        </div>
 
-<a class="btn btn-primary" href="/users/create" role="button">Add user</a>
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Create on</th>
+                    <th scope="col" class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($users as $user): ?>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="user-id"><?= $user['id'] ?></div>
+                            <div>
+                                <div class="user-name"><?= $user['name'] ?> <?= $user['surname'] ?></div>
+                                <div class="user-username">@<?= $user['username'] ?></div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="user-email"><?= $user['email'] ?></div>
+                        <div class="user-phone"><?= $user['phone'] ?></div>
+                    </td>
+
+                    <td>
+                        <span class="badge-age"><?= $user['age'] ?></span>
+                    </td>
+
+                    <td class="user-date">
+                        <?= $user['create_at'] ?>
+                    </td>
+
+                    <td class="text-end">
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="/users/<?= $user['id'] ?>/edit" class="btn-icon" aria-label="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="/users/<?= $user['id'] ?>/delete" class="btn-icon btn-icon-danger" aria-label="Delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
