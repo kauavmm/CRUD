@@ -18,8 +18,10 @@ class UserController {
 
     public function index(ServerRequestInterface $request): ResponseInterface {
         $users = $this->userModel->getAll();
+        $usersCount = $this->userModel->count();
+
         // $users will be the data, and 'users' will be the name of the resulting variable.
-        $html = Html::render('user/read', ['users' => $users]);
+        $html = Html::render('user/read', ['users' => $users, 'usersCount' => $usersCount]);
         $response = new Response();
         $response->getBody()->write($html);
         return $response;

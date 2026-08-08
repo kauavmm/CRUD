@@ -17,6 +17,11 @@ class UserModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // The "fetchAll()" return multiple rows and an array of arrays
     }
 
+    public function count(): int {
+        $stmt = $this->db->query("SELECT COUNT(*) FROM users");
+        return (int) $stmt->fetchColumn();
+    }
+
     // The function will receive an email and check if it exist in the database table
     public function emailExists(string $email, ?string $id = null): bool { // The function will return an Boolean
         if ($id === null) { // If the id is null, the query checks only the email

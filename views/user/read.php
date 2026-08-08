@@ -1,5 +1,8 @@
 <?php 
 
+/** @var array $users */
+/** @var int $usersCount */
+
 $this->layout('layout', [
     'title' => 'Read', 
     'description' => 'Read database'
@@ -10,7 +13,11 @@ $this->layout('layout', [
 <div class="page-container">
     <div class="content-box">
         <div class="page-header">
-            <h1>Users</h1>
+            <div>
+                <h1>Users</h1>
+                <!-- If there is more than one user, add an "s" at the end -->
+                <p class="page-subtitle"><?= $usersCount ?> user<?= $usersCount !== 1 ? 's' : '' ?> registered</p> 
+            </div>
             <a href="/users/create" class="btn btn-primary btn-sm">
                 <i class="bi bi-plus-lg"></i> Add user
             </a>
