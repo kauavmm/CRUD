@@ -147,3 +147,84 @@ body {
   border-color: var(--color-danger);
   color: var(--color-danger);
 }
+
+/* Replaces the default Bootstrap colors */
+:root {
+  --bs-form-invalid-color: var(--color-danger);
+  --bs-form-invalid-border-color: var(--color-danger);
+  --bs-form-valid-color: var(--color-success);
+  --bs-form-valid-border-color: var(--color-success);
+}
+
+.form-floating > label {
+  color: var(--color-text-muted);
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+  color: var(--color-text-secondary);
+}
+
+.form-control:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem var(--color-primary-bg);
+}
+
+.page-header p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+/* Height of the prefix and the show password button */
+.input-group:has(.form-floating) .input-group-text,
+.input-group:has(.form-floating) .btn {
+  height: calc(3.5rem + 2px);
+  display: flex;
+  align-items: center;
+}
+
+/* Removes the Bootstrap box-shadow when the input is focused */
+.was-validated .form-control:valid:focus,
+.was-validated .form-control:invalid:focus,
+.form-control.is-valid:focus,
+.form-control.is-invalid:focus {
+  box-shadow: none;
+}
+
+.input-group > .input-group-text:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+ 
+.input-group > .btn:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+ 
+.input-group > .form-floating:not(:first-child) > .form-control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+ 
+.input-group > .form-floating:not(:last-child) > .form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Custom colors for the password bar */
+.strength-red {
+  background-color: var(--color-danger);
+}
+ 
+.strength-orange {
+  background-color: var(--color-orange);
+}
+ 
+.strength-yellow {
+  background-color: var(--color-warning);
+}
+ 
+.strength-green {
+  background-color: var(--color-success);
+}

@@ -20,14 +20,21 @@
   --color-primary: #3b82f6;
   --color-primary-hover: #2563eb;
   --color-primary-bg: #eaf1fe;
- 
-  --color-danger: #dc2626;
-  --color-danger-hover: #b91c1c;
-  --color-danger-bg: #fdecec;
- 
 
-  --color-success: #16a34a;
-  --color-success-bg: #eaf7ee;
+ 
+  /* Semantics */
+    --color-danger: #dc2626;
+    --color-danger-hover: #b91c1c;
+    --color-danger-bg: #fdecec;
+  
+    --color-success: #16a34a;
+    --color-success-bg: #eaf7ee;
+  
+    --color-warning: #eab308;
+    --color-warning-bg: #fef9e7;
+  
+    --color-orange: #f97316;
+    --color-orange-bg: #fff1e7;
  
 
   --radius: 8px;
