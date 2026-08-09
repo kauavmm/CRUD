@@ -64,14 +64,45 @@ $this->layout('layout', [
                             <a href="/users/<?= $user['id'] ?>/edit" class="btn-icon" aria-label="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="/users/<?= $user['id'] ?>/delete" class="btn-icon btn-icon-danger" aria-label="Delete">
+
+                            <button type="button"
+                                    class="btn-icon btn-icon-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal"
+                                    data-user-id="<?= $user['id'] ?>"
+                                    data-user-name="<?= $user['name'] ?> <?= $user['surname'] ?>"
+                                    aria-label="Delete">
                                 <i class="bi bi-trash"></i>
-                            </a>
+                            </button>
                         </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5>Delete this user?</h5>
+                        <p class="text-secondary">
+                            This will permanently remove <strong id="deleteModalName"></strong> from the database. This action can't be undone.
+                        </p>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <form id="deleteForm" method="GET" action="">
+                            <button type="submit" class="btn btn-danger">
+                                Delete user
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
