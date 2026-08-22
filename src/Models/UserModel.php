@@ -53,14 +53,15 @@ class UserModel {
     }
 
     public function update(string $id, string $name, string $surname, string $username, string $phone, int $age, string $email, ?string $password = null): bool {
-        if ($password === null) {
+        if (empty($password)) {
             $stmt = $this->db->prepare("UPDATE users SET name = ?, surname = ?, username = ?, phone = ?, age = ?, email = ?
                                         WHERE id = ?");
             return $stmt->execute([$name, $surname, $username, $phone, $age, $email, $id]);
         } else {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $this->db->prepare("UPDATE users SET name = ?, surname = ?, username = ?, phone = ?, age = ?, email = ?, password = ?
                                         WHERE id = ?");
-            return $stmt->execute([$name, $surname, $username, $phone, $age, $email, $password, $id]);
+            return $stmt->execute([$name, $surname, $username, $phone, $age, $email, $hashedPassword, $id]);
         }
     }
 

@@ -123,30 +123,81 @@ class UserController {
     public function update(ServerRequestInterface $request, array $args): ResponseInterface {
         // Receive user data from the form edit
         $id = $args['id'];
-        $name = $_POST['name'];
-        $surname = $_POST["surname"];
-        $username = $_POST["username"];
-        $phone = $_POST["phone"];
-        $age = (int) $_POST["age"];
-        $email = $_POST["email"];
-        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        $name = trim($_POST['name'] ?? '');
+        $surname = trim($_POST['surname'] ?? '');
+        $username = trim($_POST['username'] ?? '');
+        $phone = trim($_POST['phone'] ?? '');
+        $age = $_POST["age"] ?? '';
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST["password"] ?? '';
 
+        $errors = [];
+
+        // Name
+        if (strlen($name) < 3) {
+            $errors['name'] = 'Name must have at least 3 characters.';
+        }
+
+        // Surname
+        if (strlen($surname) < 3) {
+            $errors['surname'] = 'Surname must have at least 3 characters.';
+        }
+
+        // Username
+        if (strlen($username) < 3) {
+            $errors['username'] = 'Username must have at least 3 characters.';
+        }
+
+        // Phone
+        if (!preg_match('/^\d{9}$/', $phone)) {
+            $errors['phone'] = 'Phone must have exactly 9 digits.';
+        }
+
+        // Age
+        if (!is_numeric($age) || (int) $age < 18) {
+            $errors['age'] = 'You must be at least 18 years old.';
+        }
+
+        // Email
         // Filter and verify if the email exists
         $emailFilter = filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!($emailFilter)) {
-            Session::set('emailFilter', 'Invalid email');
-            return (new Response())->withStatus(302)->withHeader('Location', "/users/$id/edit");
-        } else {
-            $emailExists = $this->userModel->emailExists($emailFilter, $id);
-            if ($emailExists) {
-                Session::set('emailExists', 'Email is already in use, please choose another');
-                return (new Response())->withStatus(302)->withHeader('Location', "/users/$id/edit");
-            }
-            
-            // Edit the user, send data to the database and redirect the user to the read page
-            $this->userModel->update($id, $name, $surname, $username, $phone, $age, $email, $password);
-            return (new Response())->withStatus(302)->withHeader('Location', '/');
+            $errors['email'] = 'Please enter a valid e-mail.';
+        } else if ($this->userModel->emailExists($emailFilter, $id)) {
+            $errors['email'] = 'Email is already in use, please choose another';
         }
+
+        // Password
+        if (!empty($password)) {
+            if (
+                strlen($password) < 8 ||
+                !preg_match('/[A-Z]/', $password) ||
+                !preg_match('/[a-z]/', $password) ||
+                !preg_match('/[0-9]/', $password) ||
+                !preg_match('/[^A-Za-z0-9]/', $password)
+            ) {
+                $errors['password'] = 'The password must meet all 5 criteria';
+            }
+        }
+
+        // Defines the errors
+        if (!empty($errors)) {
+            Session::set('errors', $errors);
+            Session::set('old', [ // Return the validated/correct form inputs
+                'name' => $name,
+                'surname' => $surname,
+                'username' => $username,
+                'phone' => $phone,
+                'age' => $age,
+                'email' => $email
+            ]);
+
+            return (new Response())->withStatus(302)->withHeader('Location', "/users/$id/edit");
+        }
+            
+        // Everything validated. Edit the user, send data to the database and redirect the user to the read page
+        $this->userModel->update($id, $name, $surname, $username, $phone, (int) $age, $emailFilter, $password);
+        return (new Response())->withStatus(302)->withHeader('Location', '/');
     }
 
     public function destroy(ServerRequestInterface $request, array $args): ResponseInterface {

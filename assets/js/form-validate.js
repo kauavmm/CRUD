@@ -46,7 +46,12 @@ document.addEventListener('DOMContentLoaded', function () {
             message: 'Please enter a valid e-mail.',
         },
         inputPassword: {
-            validate: value => passwordMeetsAllCriteria(value),
+            validate: (value, input) => {
+                if (value === '' && !input.required) {
+                    return true;
+                }
+                return passwordMeetsAllCriteria(value);
+            },
             message: 'The password must meet all 5 criteria.',
         },
     };
@@ -59,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return true;
         }
 
-        const isValid = rule.validate(input.value);
+        const isValid = rule.validate(input.value, input);
 
         input.classList.toggle('is-valid', isValid);
         input.classList.toggle('is-invalid', !isValid);
