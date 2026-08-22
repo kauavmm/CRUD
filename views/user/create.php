@@ -9,11 +9,8 @@ $this->layout('layout', [
 
 <?php
 
-    use App\Helpers\Session;
-
-    Session::flashOutput('emailFilter');
-    Session::flashOutput('emailExists');
-    Session::flashOutput('emptyPassword');
+    $errors = \App\Helpers\Session::flash('errors') ?? []; // Captures input errors
+    $old = \App\Helpers\Session::flash('old') ?? []; // Return the validated/correct inputs
     
 ?>
 
@@ -26,23 +23,35 @@ $this->layout('layout', [
             </div>
         </div>
 
-        <form class="row g-3 needs-validation" novalidate>
+        <form class="row g-3 needs-validation" method="POST" action="/users" novalidate>
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="text" class="form-control" name="name" id="inputName" placeholder=" " required>
+                    <input type="text" 
+                           class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>" 
+                           name="name" 
+                           id="inputName" 
+                           value="<?= htmlspecialchars($old['name'] ?? '') ?>"
+                           placeholder=" " 
+                           required>
                     <label for="inputName">Name</label>
                     <div class="invalid-feedback">
-                        Please choose a name.
+                        <?= $errors['name'] ?? 'Please choose a name.' ?>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="text" class="form-control" name="surname" id="inputSurname" placeholder=" " required>
+                    <input type="text" 
+                           class="form-control <?= isset($errors['surname']) ? 'is-invalid' : '' ?>" 
+                           name="surname" 
+                           id="inputSurname" 
+                           value="<?= htmlspecialchars($old['surname'] ?? '') ?>"
+                           placeholder=" " 
+                           required>
                     <label for="inputSurname">Surname</label>
                     <div class="invalid-feedback">
-                        Please choose a surname.
+                        <?= $errors['surname'] ?? 'Please choose a surname.' ?>
                     </div>
                 </div>
             </div>
@@ -51,10 +60,16 @@ $this->layout('layout', [
                 <div class="input-group has-validation">
                     <span class="input-group-text">@</span>
                     <div class="form-floating">
-                        <input type="text" class="form-control" name="username" id="inputUsername" placeholder=" " required>
+                        <input type="text" 
+                               class="form-control <?= isset($errors['username']) ? 'is-invalid' : '' ?>" 
+                               name="username" 
+                               id="inputUsername" 
+                               value="<?= htmlspecialchars($old['username'] ?? '') ?>"
+                               placeholder=" " 
+                               required>
                         <label for="inputUsername">Username</label>
                         <div class="invalid-feedback">
-                            Please choose a username.
+                            <?= $errors['username'] ?? 'Please choose a username.' ?>
                         </div>
                     </div>
                 </div>
@@ -62,30 +77,48 @@ $this->layout('layout', [
 
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="number" class="form-control" name="phone" id="inputPhone" placeholder=" " required>
+                    <input type="number" 
+                           class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>" 
+                           name="phone" 
+                           id="inputPhone" 
+                           value="<?= htmlspecialchars($old['phone'] ?? '') ?>"
+                           placeholder=" " 
+                           required>
                     <label for="inputPhone">Phone</label>
                     <div class="invalid-feedback">
-                        Please enter a valid phone.
+                        <?= $errors['phone'] ?? 'Please enter a valid phone.' ?>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="number" class="form-control" name="age" id="inputAge" placeholder=" " required>
+                    <input type="number" 
+                           class="form-control <?= isset($errors['age']) ? 'is-invalid' : '' ?>" 
+                           name="age" 
+                           id="inputAge" 
+                           value="<?= htmlspecialchars($old['age'] ?? '') ?>"
+                           placeholder=" " 
+                           required>
                     <label for="inputAge">Age</label>
                     <div class="invalid-feedback">
-                        Please enter a valid age.
+                        <?= $errors['age'] ?? 'Please enter a valid age.' ?>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="email" class="form-control" name="email" id="inputEmail" placeholder=" " required>
+                    <input type="email" 
+                           class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" 
+                           name="email" 
+                           id="inputEmail" 
+                           value="<?= htmlspecialchars($old['email'] ?? '') ?>"
+                           placeholder=" " 
+                           required>
                     <label for="inputEmail">E-mail</label>
                     <div class="invalid-feedback">
-                        Please enter a valid e-mail.
+                        <?= $errors['email'] ?? 'Please enter a valid e-mail.' ?>
                     </div>
                 </div>
             </div>
@@ -93,10 +126,15 @@ $this->layout('layout', [
             <div class="col-md-6">
                 <div class="input-group has-validation">
                     <div class="form-floating">
-                        <input type="password" class="form-control" name="password" id="inputPassword" placeholder=" " required>
+                        <input type="password" 
+                               class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>" 
+                               name="password" 
+                               id="inputPassword" 
+                               placeholder=" " 
+                               required>
                         <label for="inputPassword">Password</label>
                         <div class="invalid-feedback">
-                            Please enter a password.
+                            <?= $errors['password'] ?? 'Please enter a password.' ?>
                         </div>
                     </div>
                     <button class="btn btn-outline-secondary" type="button" id="togglePassword" tabindex="-1" aria-label="Show password">

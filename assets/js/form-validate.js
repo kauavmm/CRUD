@@ -95,8 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             event.stopPropagation();
         }
-
-        form.classList.add('was-validated');
     }, false);
 
     // Password progress bar

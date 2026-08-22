@@ -94,7 +94,7 @@ class UserController {
         // Defines the errors
         if (!empty($errors)) {
             Session::set('errors', $errors);
-            Session::set('old', [
+            Session::set('old', [ // Return the validated/correct form inputs
                 'name' => $name,
                 'surname' => $surname,
                 'username' => $username,
@@ -108,7 +108,7 @@ class UserController {
 
         // Everything validated. Encrypt the password, add the user to the database and redirect to the read page
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $this->userModel->create($name, $surname, $username, $phone, $age, $email, $hashedPassword);
+        $this->userModel->create($name, $surname, $username, $phone, (int) $age, $emailFilter, $hashedPassword);
         return (new Response())->withStatus(302)->withHeader('Location', '/');
     }
 
