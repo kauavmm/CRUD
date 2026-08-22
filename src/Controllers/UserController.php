@@ -36,38 +36,80 @@ class UserController {
 
     public function store(ServerRequestInterface $request): ResponseInterface {
         // Receive user data from the form create
-        $name = $_POST["name"];
-        $surname = $_POST["surname"];
-        $username = $_POST["username"];
-        $phone = $_POST["phone"];
-        $age = (int) $_POST["age"]; // The "$_POST[]" arrives as a string and use "(int)" to convert it into an integer 
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+        $name = trim($_POST["name"] ?? ''); // trim() removes all whitespace, for example " hello " => "hello"
+        $surname = trim($_POST["surname"] ?? '');
+        $username = trim($_POST["username"] ?? '');
+        $phone = trim($_POST["phone"] ?? '');
+        $age = $_POST["age"] ?? '';
+        $email = trim($_POST["email"] ?? '');
+        $password = $_POST["password"] ?? '';
 
+        $errors = [];
+
+        // Name
+        if (strlen($name) < 3) {
+            $errors['name'] = 'Name must have at least 3 characters.';
+        }
+
+        // Surname
+        if (strlen($surname) < 3) {
+            $errors['surname'] = 'Surname must have at least 3 characters.';
+        }
+
+        // Username
+        if (strlen($username) < 3) {
+            $errors['username'] = 'Username must have at least 3 characters.';
+        }
+
+        // Phone
+        if (!preg_match('/^\d{9}$/', $phone)) {
+            $errors['phone'] = 'Phone must have exactly 9 digits.';
+        }
+
+        // Age
+        if (!is_numeric($age) || (int) $age < 18) {
+            $errors['age'] = 'You must be at least 18 years old.';
+        }
+
+        // Email
         // Filter and verify if the email exists
         $emailFilter = filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!($emailFilter)) {
-            Session::set('emailFilter', 'Invalid email');
-            return (new Response())->withStatus(302)->withHeader('Location', '/users/create');
-        } else {
-            $emailExists = $this->userModel->emailExists($emailFilter);
-            if ($emailExists) {
-                Session::set('emailExists', 'Email is already in use, please choose another');
-                return (new Response())->withStatus(302)->withHeader('Location', '/users/create');
-            }
-
-            // Verify if password input is empty
-            if (empty($password)) {
-                Session::set('emptyPassword', 'Empty password, please choose one');
-                return (new Response())->withStatus(302)->withHeader('Location', '/users/create');
-            } else {
-                $password = password_hash($password, PASSWORD_DEFAULT); // Encrypts password
-            }
-            
-            // Add the user to the database and redirect to the read page
-            $this->userModel->create($name, $surname, $username, $phone, $age, $email, $password);
-            return (new Response())->withStatus(302)->withHeader('Location', '/');
+            $errors['email'] = 'Please enter a valid e-mail.';
+        } else if ($this->userModel->emailExists($emailFilter)) {
+            $errors['email'] = 'Email is already in use, please choose another';
         }
+
+        // Password
+        if (
+            strlen($password) < 8 ||
+            !preg_match('/[A-Z]/', $password) ||
+            !preg_match('/[a-z]/', $password) ||
+            !preg_match('/[0-9]/', $password) ||
+            !preg_match('/[^A-Za-z0-9]/', $password)
+        ) {
+            $errors['password'] = 'The password must meet all 5 criteria';
+        }
+
+        // Defines the errors
+        if (!empty($errors)) {
+            Session::set('errors', $errors);
+            Session::set('old', [
+                'name' => $name,
+                'surname' => $surname,
+                'username' => $username,
+                'phone' => $phone,
+                'age' => $age,
+                'email' => $email
+            ]);
+
+            return (new Response())->withStatus(302)->withHeader('Location', '/users/create');
+        }
+
+        // Everything validated. Encrypt the password, add the user to the database and redirect to the read page
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $this->userModel->create($name, $surname, $username, $phone, $age, $email, $hashedPassword);
+        return (new Response())->withStatus(302)->withHeader('Location', '/');
     }
 
     public function edit(ServerRequestInterface $request, array $args): ResponseInterface {
