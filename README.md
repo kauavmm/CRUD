@@ -1,4 +1,4 @@
-# CRUD - User Management
+# MVC User CRUD
 
 A user management CRUD application built in PHP from scratch, following the MVC pattern. This project started as a simple practice exercise and evolved into a more structured application, incorporating professional practices such as PSR-4 autoloading, dependency injection, routing, and PSR-7 requests/responses.
 
@@ -13,7 +13,7 @@ A user management CRUD application built in PHP from scratch, following the MVC 
 - Laminas Diactoros (PSR-7 implementation)
 - Apache (mod_rewrite)
 - Docker / Docker Compose
-- Bootstrap 5
+- Bootstrap 5 (+ Bootstrap Icons)
 - phpMyAdmin
 
 ## Features
@@ -24,6 +24,11 @@ A user management CRUD application built in PHP from scratch, following the MVC 
 - Protection against SQL Injection via prepared statements
 - Password hashing with `password_hash()`
 - Email validation, including duplicate email checks (excluding the user's own record when editing)
+- Client-side validation with real-time feedback (Bootstrap is-valid/is-invalid states), including a live password strength meter with a visual criteria checklist
+- Server-side validation mirroring all client-side rules, since client-side checks can be bypassed
+- Optional password field on user edit — leaving it blank keeps the current password unchanged
+- Custom design system on top of Bootstrap, using CSS custom properties for colors, spacing and typography (Inter font)
+- Delete confirmation via Bootstrap modal, dynamically populated per row
 - Flash messages through a custom Session helper class
 - View rendering powered by League Plates wrapped in a static `Html` helper class with layout inheritance and sections
 - Clean URLs (`/users`, `/users/{id}/edit`, etc.) powered by League Route and PSR-7
@@ -41,6 +46,8 @@ It was rebuilt from scratch using PDO with prepared statements and the MVC patte
 - The project was migrated to use Composer with PSR-4 autoloading, removing the need for manual `require_once` statements across the codebase.
 - Routing was migrated from a manual `match($route)` block reading `$_GET['route']` to League Route, using PSR-7 requests and responses (via Laminas Diactoros) and clean URLs enabled through Apache's `mod_rewrite`.
 - The custom rendering system was upgraded by integrating League Plates `league/plates`, wrapping its `Engine` instance inside the `Html` helper class to enable native template inheritance, layouts, and sections.
+
+The forms gained a full validation layer built in two parts: instant feedback on the client side (matching Bootstrap's validation states) and equivalent rules re-checked on the server, since client-side validation alone can always be bypassed. This included handling edge cases like floating-point rounding errors in JavaScript percentage calculations, and reconciling a custom validation system with Bootstrap's native HTML5 validation styling (:valid/:invalid pseudo-classes), which were initially conflicting.
 
 Each step was implemented and tested individually to make sure the application kept working end to end throughout the refactor.
 
