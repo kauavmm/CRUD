@@ -10,37 +10,43 @@ use App\Controllers\UserController;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Router;
+use League\Route\Strategy\ApplicationStrategy;
 
 Session::start();
 
-$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
+$container = require __DIR__ . '/src/Config/container.php';
+
+$request = ServerRequestFactory::fromGlobals(
     $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES
 );
 
-$router = new League\Route\Router;
+$router = new Router();
 
-$userController = new UserController();
+$strategy= new ApplicationStrategy();
+$strategy->setContainer($container);
+
+$router->setStrategy($strategy);
 
 // Read users
-$router->map('GET', '/', [$userController, 'index']);
+$router->map('GET', '/', [UserController::class, 'index']);
 
 // Create user
-$router->map('GET', '/users/create', [$userController, 'create']);
+$router->map('GET', '/users/create', [UserController::class, 'create']);
 
 // Save new user
-$router->map('POST', '/users', [$userController, 'store']);
+$router->map('POST', '/users', [UserController::class, 'store']);
 
 // Edit user
-$router->map('GET', '/users/{id}/edit', [$userController, 'edit']);
+$router->map('GET', '/users/{id}/edit', [UserController::class, 'edit']);
 
 // Update user
-$router->map('POST', '/users/{id}', [$userController, 'update']);
+$router->map('POST', '/users/{id}', [UserController::class, 'update']);
 
 // Delete user
-$router->map('GET', '/users/{id}/delete', [$userController, 'destroy']);
+$router->map('GET', '/users/{id}/delete', [UserController::class, 'destroy']);
 
 $response = $router->dispatch($request);
 
-(new Laminas\HttpHandlerRunner\Emitter\SapiEmitter())->emit($response);
+(new SapiEmitter())->emit($response);
 
 ?>
