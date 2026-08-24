@@ -12,8 +12,8 @@ use Laminas\Diactoros\Response;
 class UserController {
     private UserModel $userModel;
 
-    public function __construct() {
-        $this->userModel = new UserModel();
+    public function __construct(UserModel $userModel) {
+        $this->userModel = $userModel;
     }
 
     public function index(ServerRequestInterface $request): ResponseInterface {

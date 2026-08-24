@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use App\Config\Database;
 use PDO;
 
 class UserModel {
     private PDO $db;
 
-    public function __construct() {
-        $this->db = Database::getConnection();
+    public function __construct(PDO $db) {
+        $this->db = $db;
     }
 
     public function getAll(): array { // The function will return an Array

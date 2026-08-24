@@ -9,6 +9,7 @@ A user management CRUD application built in PHP from scratch, following the MVC 
 - PDO (prepared statements)
 - Composer
 - League Route (routing)
+- League Container (dependency injection)
 - League Plates (template engine)
 - Laminas Diactoros (PSR-7 implementation)
 - Apache (mod_rewrite)
@@ -20,7 +21,7 @@ A user management CRUD application built in PHP from scratch, following the MVC 
 
 - Full CRUD (Create, Read, Update, Delete) for users
 - MVC architecture with clear separation between Models, Controllers and Views
-- Database connection handled through a Singleton pattern
+- Dependency Injection via League Container, with `UserModel` and `UserController` receiving their dependencies through the constructor instead of instantiating them internally
 - Protection against SQL Injection via prepared statements
 - Password hashing with `password_hash()`
 - Email validation, including duplicate email checks (excluding the user's own record when editing)
@@ -46,6 +47,7 @@ It was rebuilt from scratch using PDO with prepared statements and the MVC patte
 - The project was migrated to use Composer with PSR-4 autoloading, removing the need for manual `require_once` statements across the codebase.
 - Routing was migrated from a manual `match($route)` block reading `$_GET['route']` to League Route, using PSR-7 requests and responses (via Laminas Diactoros) and clean URLs enabled through Apache's `mod_rewrite`.
 - The custom rendering system was upgraded by integrating League Plates `league/plates`, wrapping its `Engine` instance inside the `Html` helper class to enable native template inheritance, layouts, and sections.
+- The `Database` Singleton class was later replaced by a proper Dependency Injection container using `league/container`. A `container.php` file now centralizes the PDO connection setup (registered as a shared instance, so it's created only once), and both `UserModel` and `UserController` were refactored to receive their dependencies through the constructor instead of instantiating or fetching them internally. This removed the coupling to the static `Database::getConnection()` call and made the classes easier to reason about and, potentially, to test in isolation.
 
 The forms gained a full validation layer built in two parts: instant feedback on the client side (matching Bootstrap's validation states) and equivalent rules re-checked on the server, since client-side validation alone can always be bypassed. This included handling edge cases like floating-point rounding errors in JavaScript percentage calculations, and reconciling a custom validation system with Bootstrap's native HTML5 validation styling (:valid/:invalid pseudo-classes), which were initially conflicting.
 
