@@ -4,6 +4,7 @@ namespace App\Config;
 
 use League\Container\Container;
 use League\Container\ReflectionContainer;
+use Doctrine\ORM\EntityManagerInterface;
 use PDO;
 use PDOException;
 
@@ -29,6 +30,11 @@ $container->add(PDO::class, function () { // Connect to the database
         die();
     }
 })->setShared(true); // Establishes the connection once, saves it in the container and always returns the same connection
+
+// Registers the Doctrine EntityManager 
+$container->add(EntityManagerInterface::class, function () {
+    return require __DIR__ . '/doctrine.php';
+})->setShared(true);
 
 return $container;
 
