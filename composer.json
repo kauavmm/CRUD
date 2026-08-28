@@ -17,6 +17,7 @@
         "laminas/laminas-httphandlerrunner": "^2.13",
         "league/plates": "^3.6",
         "league/container": "^5.2",
-        "doctrine/orm": "^3.6"
+        "doctrine/orm": "^3.6",
+        "symfony/cache": "^8.1"
     }
 }

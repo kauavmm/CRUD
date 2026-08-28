@@ -9,9 +9,12 @@ use Doctrine\DBAL\DriverManager;
 // Tell the Doctrine where to look for the Entities, and activate dev mode
 $config = ORMSetup::createAttributeMetadataConfiguration(
     paths: [__DIR__ . '/../Entity'], 
-    isDevMode: true
+    isDevMode: true,
+    proxyDir: null,
+    cache: null
 );
 
+$config->enableNativeLazyObjects(true);
 
 // Connection data
 $connectionParams = [
