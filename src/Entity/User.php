@@ -34,6 +34,9 @@ class User {
     #[ORM\Column(type: 'string', length: 250)]
     private string $password;
 
+    #[ORM\Column(type: 'datetime', name: 'create_at')]
+    private \DateTimeInterface $createAt;
+
     public function getId(): int {
         return $this->id;
     }
@@ -99,6 +102,10 @@ class User {
     public function setPassword(string $password): static {
         $this->password = $password;
         return $this;
+    }
+
+    public function getCreateAt(): \DateTimeInterface {
+        return $this->createAt;
     }
 }
 

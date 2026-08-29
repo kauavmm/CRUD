@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Repository\UserRepository;
 use App\Helpers\Session;
 use App\Helpers\Html;
 use Psr\Http\Message\ResponseInterface;
@@ -11,14 +12,25 @@ use Laminas\Diactoros\Response;
 
 class UserController {
     private UserModel $userModel;
+    private UserRepository $userRepository;
 
-    public function __construct(UserModel $userModel) {
+    public function __construct(UserModel $userModel, UserRepository $userRepository) {
         $this->userModel = $userModel;
+        $this->userRepository = $userRepository;
     }
+    
+    /* private UserRepository $userRepository;
+
+    public function __construct(UserRepository $userRepository) {
+        $this->userRepository = $userRepository;
+    } */
 
     public function index(ServerRequestInterface $request): ResponseInterface {
-        $users = $this->userModel->getAll();
-        $usersCount = $this->userModel->count();
+        $users = $this->userRepository->findAll();
+        $usersCount = count($users);
+
+        /* $users = $this->userModel->getAll();
+        $usersCount = $this->userModel->count(); */
 
         // $users will be the data, and 'users' will be the name of the resulting variable.
         $html = Html::render('user/read', ['users' => $users, 'usersCount' => $usersCount]);
