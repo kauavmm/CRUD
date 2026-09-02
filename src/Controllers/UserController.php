@@ -125,7 +125,8 @@ class UserController {
     }
 
     public function edit(ServerRequestInterface $request, array $args): ResponseInterface {
-        $userData = $this->userModel->find($args['id']);
+        // $userData = $this->userModel->find($args['id']);
+        $userData = $this->userRepository->find((int) $args['id']);
         $html = Html::render('user/update', ['userData' => $userData]);
         $response = new Response();
         $response->getBody()->write($html);

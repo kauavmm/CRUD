@@ -1,6 +1,6 @@
 <?php
 
-/** @var array $userData */
+/** @var \App\Entity\User $userData */
 
 $this->layout('layout', [
     'title' => 'Edit', 
@@ -25,14 +25,14 @@ $this->layout('layout', [
             </div>
         </div>
 
-        <form class="row g-3 needs-validation" method="POST" action="/users/<?= $userData['id'] ?>" novalidate>
+        <form class="row g-3 needs-validation" method="POST" action="/users/<?= $userData->getId() ?>" novalidate>
             <div class="col-md-6">
                 <div class="form-floating">
                     <input type="text" 
                            class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>" 
                            name="name" 
                            id="inputName" 
-                           value="<?= htmlspecialchars($old['name'] ?? $userData['name']); ?>"
+                           value="<?= htmlspecialchars($old['name'] ?? $userData->getName()); ?>"
                            placeholder=" " 
                            required>
                     <label for="inputName">Name</label>
@@ -48,7 +48,7 @@ $this->layout('layout', [
                            class="form-control <?= isset($errors['surname']) ? 'is-invalid' : '' ?>" 
                            name="surname" 
                            id="inputSurname" 
-                           value="<?= htmlspecialchars($old['surname'] ?? $userData['surname']); ?>"
+                           value="<?= htmlspecialchars($old['surname'] ?? $userData->getSurname()); ?>"
                            placeholder=" " 
                            required>
                     <label for="inputSurname">Surname</label>
@@ -66,7 +66,7 @@ $this->layout('layout', [
                                class="form-control <?= isset($errors['username']) ? 'is-invalid' : '' ?>" 
                                name="username" 
                                id="inputUsername" 
-                               value="<?= htmlspecialchars($old['username'] ?? $userData['username']); ?>"
+                               value="<?= htmlspecialchars($old['username'] ?? $userData->getUsername()); ?>"
                                placeholder=" " 
                                required>
                         <label for="inputUsername">Username</label>
@@ -83,7 +83,7 @@ $this->layout('layout', [
                            class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>" 
                            name="phone" 
                            id="inputPhone" 
-                           value="<?= htmlspecialchars($old['phone'] ?? $userData['phone']); ?>"
+                           value="<?= htmlspecialchars($old['phone'] ?? $userData->getPhone()); ?>"
                            placeholder=" " 
                            required>
                     <label for="inputPhone">Phone</label>
@@ -99,7 +99,7 @@ $this->layout('layout', [
                            class="form-control <?= isset($errors['age']) ? 'is-invalid' : '' ?>" 
                            name="age" 
                            id="inputAge" 
-                           value="<?= htmlspecialchars($old['age'] ?? $userData['age']); ?>"
+                           value="<?= htmlspecialchars($old['age'] ?? $userData->getAge()); ?>"
                            placeholder=" " 
                            required>
                     <label for="inputAge">Age</label>
@@ -115,7 +115,7 @@ $this->layout('layout', [
                            class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" 
                            name="email" 
                            id="inputEmail" 
-                           value="<?= htmlspecialchars($old['email'] ?? $userData['email']); ?>"
+                           value="<?= htmlspecialchars($old['email'] ?? $userData->getEmail()); ?>"
                            placeholder=" " 
                            required>
                     <label for="inputEmail">E-mail</label>
