@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Helpers\Session;
 use App\Helpers\Html;
 use Psr\Http\Message\ResponseInterface;
@@ -13,10 +14,12 @@ use Laminas\Diactoros\Response;
 class UserController {
     private UserModel $userModel;
     private UserRepository $userRepository;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(UserModel $userModel, UserRepository $userRepository) {
+    public function __construct(UserModel $userModel, UserRepository $userRepository, EntityManagerInterface $entityManager) {
         $this->userModel = $userModel;
         $this->userRepository = $userRepository;
+        $this->entityManager = $entityManager;
     }
     
     /* private UserRepository $userRepository;
@@ -214,7 +217,14 @@ class UserController {
     }
 
     public function destroy(ServerRequestInterface $request, array $args): ResponseInterface {
-        $this->userModel->delete($args['id']);
+        /* $this->userModel->delete($args['id']); */
+        $user = $this->userRepository->find((int) $args['id']);
+
+        if ($user !== null) {
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
+        }
+
         return (new Response())->withStatus(302)->withHeader('Location', '/');
     }
 }
